@@ -35,7 +35,7 @@
         }
         
         header {
-            background: linear-gradient(135deg, #A68D44 0%, #D9BF73 100%);
+            background: linear-gradient(135deg, #8e44ad 0%, #6c5ce7 100%);
             color: white;
             padding: 30px 20px;
             text-align: center;
@@ -65,11 +65,11 @@
             background: #f9f9ff;
             border-radius: 12px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border-left: 4px solid #D9B97E;
+            border-left: 4px solid #8e44ad;
         }
         
         h2 {
-            color: #0D0D0D;
+            color: #8e44ad;
             margin-bottom: 20px;
             padding-bottom: 10px;
             border-bottom: 2px dashed #e0e0e0;
@@ -104,7 +104,7 @@
         }
         
         input:focus, select:focus, textarea:focus {
-            border-color: #0D0D0D;
+            border-color: #8e44ad;
             box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
             outline: none;
         }
@@ -119,7 +119,7 @@
         }
         
         button {
-            background: linear-gradient(to right, #A68D44, #D9BF73);
+            background: linear-gradient(to right, #8e44ad, #6c5ce7);
             color: white;
             border: none;
             padding: 16px 30px;
@@ -144,11 +144,18 @@
         }
         
         .add-song-btn {
-            background: linear-gradient(to right, #402A01, #402A01);
+            background: linear-gradient(to right, #00b894, #00cec9);
             width: auto;
             padding: 10px 20px;
             font-size: 16px;
             margin-top: 0;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
         }
         
         footer {
@@ -175,22 +182,26 @@
             }
         }
         
-        /* Logo rectangular con leve border-radius */
-        .logo-container {
+        .logo {
             display: flex;
             justify-content: center;
             margin-bottom: 15px;
         }
         
-        .custom-logo {
-            width: 200px;
-            height: 100px;
-            object-fit: contain;
-            border-radius: 8px; /* Leve border-radius */
-            border: 3px solid white;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        .logo-circle {
+            width: 80px;
+            height: 80px;
             background: white;
-            padding: 10px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-circle i {
+            font-size: 40px;
+            color: #bab133;
         }
         
         .status-container {
@@ -233,7 +244,7 @@
         
         .loading-spinner {
             border: 5px solid #f3f3f3;
-            border-top: 5px solid #A68D44;
+            border-top: 5px solid #8e44ad;
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -253,13 +264,13 @@
     
     <div class="container">
         <header>
-            <div class="logo-container">
-                <!-- Logo personalizado rectangular -->
-                <img src="Imagen de WhatsApp 2025-02-16 a las 20.44.17_e10fc7e1.jpg" 
-                     alt="Tu Logo" class="custom-logo">
+            <div class="logo">
+                <div class="logo-circle">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
             </div>
             <h1>Cronograma para Quinceañera</h1>
-            <p class="subtitle">Complete el formulario </p>
+            <p class="subtitle">Complete el formulario y recibirá un PDF por correo electrónico</p>
         </header>
         
         <div class="form-container">
@@ -327,6 +338,7 @@
                                     <option value="11:30">11:30 AM</option>
                                     <option value="12:00">12:00 PM</option>
                                 </select>
+                                <div id="maquillajeError" class="error-message">La hora final debe ser posterior a la inicial</div>
                             </div>
                             <div class="time-group">
                                 <label for="maquillajeFin">Hora fin:</label>
@@ -371,6 +383,7 @@
                                     <option value="15:30">3:30 PM</option>
                                     <option value="16:00">4:00 PM</option>
                                 </select>
+                                <div id="iglesiaError" class="error-message">La hora final debe ser posterior a la inicial</div>
                             </div>
                             <div class="time-group">
                                 <label for="iglesiaFin">Hora fin:</label>
@@ -409,6 +422,7 @@
                                     <option value="20:30">8:30 PM</option>
                                     <option value="21:00">9:00 PM</option>
                                 </select>
+                                <div id="fiestaError" class="error-message">La hora final debe ser posterior a la inicial</div>
                             </div>
                             <div class="time-group">
                                 <label for="fiestaFin">Hora fin:</label>
@@ -423,8 +437,6 @@
                                     <option value="01:00">1:00 AM</option>
                                     <option value="01:30">1:30 AM</option>
                                     <option value="02:00">2:00 AM</option>
-                                    <!-- Nueva opción para hora indefinida -->
-                                    <option value="indefinido">Indefinida</option>
                                 </select>
                             </div>
                         </div>
@@ -458,20 +470,19 @@
 
                 <div class="form-section">
                     <h2><i class="fas fa-edit"></i> Notas Adicionales</h2>
-                    <p>Por favor, describa cualquier detalle importante relacionado con el que desee incluir en el cronograma, como detalles especiales, horas y lugares de celebración, sorpresas planeadas o cualquier otra información relevante."</p>
                     <div class="form-group">
-                        <textarea id="notas" name="notas" rows="4" placeholder="Ej: Requerimientos especiales sorpreas o detalle que desee conservar en foto y video"></textarea>
+                        <textarea id="notas" name="notas" rows="4" placeholder="Ej: Requerimientos especiales (drones, fotos específicas), restricciones, etc."></textarea>
                     </div>
                 </div>
 
                 <button type="submit" id="submitBtn">
-                    <i class="fas fa-paper-plane"></i> Enviar
+                    <i class="fas fa-paper-plane"></i> Enviar y Generar PDF
                 </button>
             </form>
         </div>
         
         <footer>
-            <p>© 2025 Cronograma Quinceañera | Adonai Estudio</p>
+            <p>© 2023 Cronograma Quinceañera | Solución para Netlify</p>
         </footer>
     </div>
 
@@ -491,6 +502,31 @@
             container.appendChild(newSong);
         }
 
+        // Validar que la hora fin sea mayor que hora inicio
+        function validarHorarios() {
+            let valido = true;
+            
+            const validarRango = (inicioId, finId, errorId) => {
+                const inicio = document.getElementById(inicioId).value;
+                const fin = document.getElementById(finId).value;
+                const error = document.getElementById(errorId);
+                
+                if (inicio && fin && inicio >= fin) {
+                    error.style.display = "block";
+                    return false;
+                } else {
+                    error.style.display = "none";
+                    return true;
+                }
+            };
+            
+            valido = validarRango("maquillajeInicio", "maquillajeFin", "maquillajeError") && valido;
+            valido = validarRango("iglesiaInicio", "iglesiaFin", "iglesiaError") && valido;
+            valido = validarRango("fiestaInicio", "fiestaFin", "fiestaError") && valido;
+            
+            return valido;
+        }
+
         // Manejar el envío del formulario
         document.getElementById('cronogramaForm').addEventListener('submit', function(e) {
             // Validar campos obligatorios
@@ -499,6 +535,12 @@
                 !document.getElementById("fecha").value || 
                 !document.getElementById("contacto").value) {
                 alert("Por favor complete todos los campos obligatorios");
+                e.preventDefault();
+                return;
+            }
+            
+            if (!validarHorarios()) {
+                alert("Por favor revise los horarios, la hora final debe ser posterior a la inicial");
                 e.preventDefault();
                 return;
             }
