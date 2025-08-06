@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronograma Quinceañera - Solución Netlify</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4edf5 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #8e44ad 0%, #6c5ce7 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .form-container {
+            padding: 30px;
+        }
+        
+        .form-section {
+            margin-bottom: 30px;
+            padding: 25px;
+            background: #f9f9ff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #8e44ad;
+        }
+        
+        h2 {
+            color: #8e44ad;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed #e0e0e0;
+            display: flex;
+            align-items: center;
+        }
+        
+        h2 i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fff;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: #8e44ad;
+            box-shadow: 0 0 0 3px rgba(142, 68, 173, 0.2);
+            outline: none;
+        }
+        
+        .time-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .time-group {
+            flex: 1;
+        }
+        
+        button {
+            background: linear-gradient(to right, #8e44ad, #6c5ce7);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 20px;
+            box-shadow: 0 4px 15px rgba(108, 92, 231, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(108, 92, 231, 0.4);
+        }
+        
+        .song-input {
+            margin-bottom: 15px;
+        }
+        
+        .add-song-btn {
+            background: linear-gradient(to right, #00b894, #00cec9);
+            width: auto;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-top: 0;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #777;
+            font-size: 14px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            .time-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .form-container {
+                padding: 20px;
+            }
+        }
+        
+        .logo {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-circle i {
+            font-size: 40px;
+            color: #8e44ad;
+        }
+        
+        .status-container {
+            background: #e8f5e9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #4caf50;
+            display: none;
+        }
+        
+        .success-message {
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .success-message i {
+            color: #4caf50;
+            font-size: 24px;
+            margin-right: 15px;
+        }
+        
+        .loading-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            display: none;
+        }
+        
+        .loading-spinner {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #8e44ad;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="loading-container" id="loading">
+        <div class="loading-spinner"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <div class="logo">
+                <div class="logo-circle">
+                    <i class="fas fa-file-pdf"></i>
+                </div>
+            </div>
+            <h1>Cronograma para Quinceañera</h1>
+            <p class="subtitle">Complete el formulario y recibirá un PDF por correo electrónico</p>
+        </header>
+        
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                <div style="display: flex; align-items: center;">
+                    <i class="fas fa-check-circle"></i>
+                    <div>
+                        <h3>¡Formulario enviado con éxito!</h3>
+                        <p>Revisa tu correo electrónico para descargar el PDF con el cronograma.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <form id="cronogramaForm" action="https://formsubmit.co/nestor1999lopez@gmail.com" method="POST">
+                <input type="hidden" name="_subject" value="Nuevo Cronograma Quinceañera">
+                <input type="hidden" name="_template" value="table">
+                <input type="hidden" name="_next" value="#success">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div class="form-section">
+                    <h2><i class="fas fa-user"></i> Información Básica</h2>
+                    
+                    <div class="form-group">
+                        <label for="nombre">Nombre de la Quinceañera:</label>
+                        <input type="text" id="nombre" name="nombre" required placeholder="Ingrese el nombre completo">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Correo Electrónico:</label>
+                        <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fecha">Fecha del Evento:</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="contacto">Teléfono de Contacto:</label>
+                        <input type="text" id="contacto" name="contacto" required placeholder="Número de teléfono">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-clock"></i> Cronograma del Día</h2>
+                    
+                    <div class="form-group">
+                        <label>Maquillaje y Peinado:</label>
+                        <div class="time-row">
+                            <div class="time-group">
+                                <label for="maquillajeInicio">Hora inicio:</label>
+                                <select id="maquillajeInicio" name="maquillajeInicio" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="06:00">6:00 AM</option>
+                                    <option value="06:30">6:30 AM</option>
+                                    <option value="07:00">7:00 AM</option>
+                                    <option value="07:30">7:30 AM</option>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="08:30">8:30 AM</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="09:30">9:30 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="10:30">10:30 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="11:30">11:30 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                </select>
+                                <div id="maquillajeError" class="error-message">La hora final debe ser posterior a la inicial</div>
+                            </div>
+                            <div class="time-group">
+                                <label for="maquillajeFin">Hora fin:</label>
+                                <select id="maquillajeFin" name="maquillajeFin" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="08:00">8:00 AM</option>
+                                    <option value="08:30">8:30 AM</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="09:30">9:30 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="10:30">10:30 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="11:30">11:30 AM</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="12:30">12:30 PM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="13:30">1:30 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="maquillajeLugar">Lugar:</label>
+                            <input type="text" id="maquillajeLugar" name="maquillajeLugar" required placeholder="Dirección completa">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ceremonia Religiosa:</label>
+                        <div class="time-row">
+                            <div class="time-group">
+                                <label for="iglesiaInicio">Hora inicio:</label>
+                                <select id="iglesiaInicio" name="iglesiaInicio" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="12:00">12:00 PM</option>
+                                    <option value="12:30">12:30 PM</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="13:30">1:30 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="14:30">2:30 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="15:30">3:30 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                </select>
+                                <div id="iglesiaError" class="error-message">La hora final debe ser posterior a la inicial</div>
+                            </div>
+                            <div class="time-group">
+                                <label for="iglesiaFin">Hora fin:</label>
+                                <select id="iglesiaFin" name="iglesiaFin" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="13:00">1:00 PM</option>
+                                    <option value="13:30">1:30 PM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="14:30">2:30 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="15:30">3:30 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                    <option value="16:30">4:30 PM</option>
+                                    <option value="17:00">5:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="iglesiaLugar">Lugar (Iglesia/Capilla):</label>
+                            <input type="text" id="iglesiaLugar" name="iglesiaLugar" required placeholder="Nombre de la iglesia y dirección">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fiesta:</label>
+                        <div class="time-row">
+                            <div class="time-group">
+                                <label for="fiestaInicio">Hora inicio:</label>
+                                <select id="fiestaInicio" name="fiestaInicio" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="18:00">6:00 PM</option>
+                                    <option value="18:30">6:30 PM</option>
+                                    <option value="19:00">7:00 PM</option>
+                                    <option value="19:30">7:30 PM</option>
+                                    <option value="20:00">8:00 PM</option>
+                                    <option value="20:30">8:30 PM</option>
+                                    <option value="21:00">9:00 PM</option>
+                                </select>
+                                <div id="fiestaError" class="error-message">La hora final debe ser posterior a la inicial</div>
+                            </div>
+                            <div class="time-group">
+                                <label for="fiestaFin">Hora fin:</label>
+                                <select id="fiestaFin" name="fiestaFin" required>
+                                    <option value="">-- Seleccione --</option>
+                                    <option value="22:00">10:00 PM</option>
+                                    <option value="22:30">10:30 PM</option>
+                                    <option value="23:00">11:00 PM</option>
+                                    <option value="23:30">11:30 PM</option>
+                                    <option value="00:00">12:00 AM</option>
+                                    <option value="00:30">12:30 AM</option>
+                                    <option value="01:00">1:00 AM</option>
+                                    <option value="01:30">1:30 AM</option>
+                                    <option value="02:00">2:00 AM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="fiestaLugar">Lugar:</label>
+                            <input type="text" id="fiestaLugar" name="fiestaLugar" required placeholder="Salón o dirección del evento">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-music"></i> Música para el Video</h2>
+                    <p>Seleccione 3-5 canciones para incluir en el video:</p>
+                    
+                    <div id="cancionesContainer">
+                        <div class="form-group">
+                            <input type="text" name="cancion1" placeholder="Canción 1 (ej: 'Perfect - Ed Sheeran')" class="cancion">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="cancion2" placeholder="Canción 2" class="cancion">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="cancion3" placeholder="Canción 3" class="cancion">
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="add-song-btn" onclick="agregarCancion()">
+                        <i class="fas fa-plus"></i> Añadir otra canción
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <h2><i class="fas fa-edit"></i> Notas Adicionales</h2>
+                    <div class="form-group">
+                        <textarea id="notas" name="notas" rows="4" placeholder="Ej: Requerimientos especiales (drones, fotos específicas), restricciones, etc."></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" id="submitBtn">
+                    <i class="fas fa-paper-plane"></i> Enviar y Generar PDF
+                </button>
+            </form>
+        </div>
+        
+        <footer>
+            <p>© 2023 Cronograma Quinceañera | Solución para Netlify</p>
+        </footer>
+    </div>
+
+    <script>
+        // Agregar más campos de canciones
+        function agregarCancion() {
+            const container = document.getElementById("cancionesContainer");
+            if (container.children.length >= 5) {
+                alert("Máximo 5 canciones permitidas");
+                return;
+            }
+            
+            const newSong = document.createElement("div");
+            newSong.className = "form-group";
+            const songNumber = container.children.length + 1;
+            newSong.innerHTML = `<input type="text" name="cancion${songNumber}" placeholder="Canción ${songNumber}" class="cancion">`;
+            container.appendChild(newSong);
+        }
+
+        // Validar que la hora fin sea mayor que hora inicio
+        function validarHorarios() {
+            let valido = true;
+            
+            const validarRango = (inicioId, finId, errorId) => {
+                const inicio = document.getElementById(inicioId).value;
+                const fin = document.getElementById(finId).value;
+                const error = document.getElementById(errorId);
+                
+                if (inicio && fin && inicio >= fin) {
+                    error.style.display = "block";
+                    return false;
+                } else {
+                    error.style.display = "none";
+                    return true;
+                }
+            };
+            
+            valido = validarRango("maquillajeInicio", "maquillajeFin", "maquillajeError") && valido;
+            valido = validarRango("iglesiaInicio", "iglesiaFin", "iglesiaError") && valido;
+            valido = validarRango("fiestaInicio", "fiestaFin", "fiestaError") && valido;
+            
+            return valido;
+        }
+
+        // Manejar el envío del formulario
+        document.getElementById('cronogramaForm').addEventListener('submit', function(e) {
+            // Validar campos obligatorios
+            if (!document.getElementById("nombre").value || 
+                !document.getElementById("email").value || 
+                !document.getElementById("fecha").value || 
+                !document.getElementById("contacto").value) {
+                alert("Por favor complete todos los campos obligatorios");
+                e.preventDefault();
+                return;
+            }
+            
+            if (!validarHorarios()) {
+                alert("Por favor revise los horarios, la hora final debe ser posterior a la inicial");
+                e.preventDefault();
+                return;
+            }
+            
+            // Mostrar loading
+            document.getElementById('loading').style.display = 'flex';
+            
+            // Ocultar el formulario y mostrar mensaje de éxito después de un tiempo
+            setTimeout(function() {
+                document.getElementById('successMessage').style.display = 'block';
+                document.getElementById('loading').style.display = 'none';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
